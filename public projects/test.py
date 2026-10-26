@@ -1,5 +1,6 @@
 from google import genai
 import os
+from google.genai import types #ADDED
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -11,7 +12,7 @@ while True:
     prompt=input('enter prompt:')
     print('-'*20)
     prompt=prompt+history
-    response=client.models.generate_content(model='gemini-3.8-flash',contents=prompt) 
+    response=client.models.generate_content(model='gemini-3.8-flash',contents=prompt,config=types.GenerateContentConfig(system_instruction='You are a friendly co-worker,Keep answers short.')) 
     token_input=client.models.count_tokens(model='gemini-3.8-flash',contents=prompt)
     token_output=client.models.count_tokens(model='gemini-3.8-flash',contents=response.text)
     history=history+f'user:{prompt}'
